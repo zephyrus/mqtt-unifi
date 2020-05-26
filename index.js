@@ -40,7 +40,7 @@ unifi.on('error', (e) => {
 	process.exit(1);
 });
 
-unifi.on('connect', (e) => {
+unifi.on('connect', () => {
 	error('unifi', `connected to ${config.unifi.host}`);
 
 	mqtt.publish(topics.state(), 'online', {
