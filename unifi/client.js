@@ -9,7 +9,7 @@ module.exports.Client = class UnifiClient extends EventEmitter {
 		this.mac = data.mac;
 		this.name = data.name || data.hostname;
 
-		this.state = {};
+		this.state = this.parse(data);
 	}
 
 	update(data) {
@@ -29,17 +29,23 @@ module.exports.Client = class UnifiClient extends EventEmitter {
 
 	parse(data) {
 		return {
-			online: true,
+			ip: data.ip,
 			mac: data.mac,
 		};
 	}
 
 	receive(data) {
-		this.update(this.parse(data));
+		this.update({
+			...this.parse(data),
+			online: true,
+		});
 	}
 
 	offline() {
-		this.update({ online: false });
+		this.update({
+			online: false,
+			ip: undefined,
+		});
 	}
 
 };

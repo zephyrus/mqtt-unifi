@@ -1,6 +1,7 @@
 const { connect } = require('mqtt');
 const { Unifi } = require('./unifi');
 const { config } = require('./config');
+const { version } = require('./package');
 
 const topics = {
 	state: () => `${config.mqtt.path}/state`,
@@ -24,7 +25,7 @@ const mqtt = connect(config.mqtt.host, {
 	clientId: config.mqtt.id,
 	will: {
 		topic: topics.state(),
-		payload: 'offline',
+		payload: JSON.stringify({ online: false }),
 		retain: true,
 	},
 });
@@ -43,9 +44,10 @@ unifi.on('error', (e) => {
 unifi.on('connect', () => {
 	error('unifi', `connected to ${config.unifi.host}`);
 
-	mqtt.publish(topics.state(), 'online', {
-		retain: true,
-	});
+	mqtt.publish(topics.state(), JSON.stringify({
+		online: true,
+		version,
+	}), { retain: true });
 });
 
 unifi.on('update', (site, client, state) => {
