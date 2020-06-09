@@ -9,8 +9,6 @@ const topics = {
 };
 
 const format = (type, args) => [
-	(new Date()).toISOString().substring(0, 10),
-	(new Date()).toTimeString().substring(0, 8),
 	`[${type.toUpperCase()}]`,
 	...args,
 ].join(' ');

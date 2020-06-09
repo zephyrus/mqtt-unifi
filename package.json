@@ -1,6 +1,6 @@
 {
 	"name": "mqtt-unifi",
-	"version": "0.0.4",
+	"version": "0.0.5",
 
 	"description": "MQTT integration for Ubiquiti UniFi controller",
 	"author": "zephyrus",
